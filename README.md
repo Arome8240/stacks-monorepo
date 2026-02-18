@@ -2,6 +2,21 @@
 
 A comprehensive collection of 10 production-ready smart contracts for the Stacks blockchain, built with Clarity.
 
+## 🚀 Quick Deploy
+
+```bash
+# Automated deployment (recommended)
+./deploy-automated.sh devnet
+
+# Quick one-command deploy
+./quick-deploy.sh
+
+# Verify deployment
+./verify-deployment.sh
+```
+
+📖 **Full Guide**: See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for complete instructions.
+
 ## 🚀 Contracts Overview
 
 ### 1. Lottery System
@@ -132,6 +147,31 @@ npm test
 ```bash
 clarinet console
 ```
+
+## 🚢 Deployment
+
+### Automated Deployment (Recommended)
+
+```bash
+# Deploy to devnet
+./deploy-automated.sh devnet
+
+# Deploy to testnet
+./deploy-automated.sh testnet
+
+# Quick deploy
+./quick-deploy.sh
+```
+
+### Manual Deployment
+
+```bash
+# Testnet
+clarinet deployments generate --testnet
+clarinet deployments apply -p deployments/default.testnet-plan.yaml
+```
+
+📚 **Full Guide**: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
 
 ## 🧪 Testing
 
