@@ -161,7 +161,7 @@
     (asserts! (>= (get signature-count tx) (var-get required-signatures)) err-insufficient-signatures)
 
     ;; Execute the transaction
-    (try! (as-contract (stx-transfer? (get amount tx) tx-sender (get to tx))))
+    (unwrap! (as-contract (stx-transfer? (get amount tx) tx-sender (get to tx))) err-insufficient-signatures)
 
     (map-set transactions
       { tx-id: tx-id }

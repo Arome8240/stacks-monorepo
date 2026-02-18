@@ -65,7 +65,7 @@
     (asserts! (>= (stx-get-balance tx-sender) price) err-insufficient-payment)
 
     ;; Transfer STX to contract
-    (try! (stx-transfer? price tx-sender (as-contract tx-sender)))
+    (unwrap! (stx-transfer? price tx-sender (as-contract tx-sender)) err-insufficient-payment)
 
     ;; Update participant tickets
     (map-set participants
@@ -100,7 +100,7 @@
       (current-round (var-get lottery-round))
       (pool (var-get total-pool))
       (participant-count (default-to u0 (get count (map-get? round-participant-count { round: current-round }))))
-      (random-index (mod (+ (unwrap-panic (get-block-info? vrf-seed block-height)) current-round) participant-count))
+      (random-index (mod (+ (unwrap-panic (get-block-info? id-header-hash (- burn-block-height u1))) current-round) participant-count))
       (winner-data (map-get? participant-list { round: current-round, index: random-index }))
     )
     (asserts! (is-eq tx-sender contract-owner) err-owner-only)
@@ -116,7 +116,7 @@
         (
           (prize (/ (* pool u90) u100))
         )
-        (try! (as-contract (stx-transfer? prize tx-sender winner-principal)))
+        (unwrap! (as-contract (stx-transfer? prize tx-sender winner-principal)) err-insufficient-payment)
 
         ;; Record winner
         (map-set round-winners
@@ -150,7 +150,7 @@
     )
     (asserts! (is-eq tx-sender contract-owner) err-owner-only)
     (asserts! (not (var-get lottery-active)) err-lottery-active)
-    (try! (as-contract (stx-transfer? balance tx-sender contract-owner)))
+    (unwrap! (as-contract (stx-transfer? balance tx-sender contract-owner)) err-insufficient-payment)
     (ok balance)
   )
 )

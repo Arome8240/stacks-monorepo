@@ -82,7 +82,7 @@
     (asserts! (>= (stx-get-balance tx-sender) (get amount escrow)) err-invalid-amount)
 
     ;; Transfer funds to contract
-    (try! (stx-transfer? (get amount escrow) tx-sender (as-contract tx-sender)))
+    (unwrap! (stx-transfer? (get amount escrow) tx-sender (as-contract tx-sender)) err-invalid-amount)
 
     (map-set escrows
       { escrow-id: escrow-id }
@@ -105,9 +105,10 @@
     (asserts! (not (get completed escrow)) err-already-completed)
 
     ;; Transfer to seller (minus fee)
-    (try! (as-contract (stx-transfer? seller-amount tx-sender (get seller escrow))))
+    (unwrap! (as-contract (stx-transfer? seller-amount tx-sender (get seller escrow))) err-invalid-amount)
 
     ;; Transfer fee to contract owner
+    (unwrap! (as-contract (stx-transfer? fee tx-sender (get arbiter escrow))) err-invalid-amount)
     (try! (as-contract (stx-transfer? fee tx-sender (get arbiter escrow))))
 
     (map-set escrows
@@ -129,7 +130,7 @@
     (asserts! (not (get completed escrow)) err-already-completed)
 
     ;; Refund to buyer
-    (try! (as-contract (stx-transfer? (get amount escrow) tx-sender (get buyer escrow))))
+    (unwrap! (as-contract (stx-transfer? (get amount escrow) tx-sender (get buyer escrow))) err-invalid-amount)
 
     (map-set escrows
       { escrow-id: escrow-id }
@@ -156,8 +157,8 @@
           (seller-amount (- (get amount escrow) fee))
         )
         ;; Release to seller
-        (try! (as-contract (stx-transfer? seller-amount tx-sender (get seller escrow))))
-        (try! (as-contract (stx-transfer? fee tx-sender (get arbiter escrow))))
+        (unwrap! (as-contract (stx-transfer? seller-amount tx-sender (get seller escrow))) err-invalid-amount)
+        (unwrap! (as-contract (stx-transfer? fee tx-sender (get arbiter escrow))) err-invalid-amount)
 
         (map-set escrows
           { escrow-id: escrow-id }
@@ -166,7 +167,7 @@
       )
       (begin
         ;; Refund to buyer
-        (try! (as-contract (stx-transfer? (get amount escrow) tx-sender (get buyer escrow))))
+        (unwrap! (as-contract (stx-transfer? (get amount escrow) tx-sender (get buyer escrow))) err-invalid-amount)
 
         (map-set escrows
           { escrow-id: escrow-id }

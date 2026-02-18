@@ -77,7 +77,7 @@
     (asserts! (> voting-power u0) err-invalid-amount)
 
     ;; Require staking some STX to join
-    (try! (stx-transfer? (* voting-power u1000000) tx-sender (as-contract tx-sender)))
+    (unwrap! (stx-transfer? (* voting-power u1000000) tx-sender (as-contract tx-sender)) err-invalid-amount)
 
     (map-set members tx-sender { voting-power: voting-power, joined-at: block-height })
     (var-set total-members (+ (var-get total-members) u1))
@@ -179,7 +179,7 @@
     (asserts! (> additional-power u0) err-invalid-amount)
 
     ;; Stake additional STX
-    (try! (stx-transfer? (* additional-power u1000000) tx-sender (as-contract tx-sender)))
+    (unwrap! (stx-transfer? (* additional-power u1000000) tx-sender (as-contract tx-sender)) err-invalid-amount)
 
     (map-set members tx-sender
       (merge member-info { voting-power: (+ current-power additional-power) })

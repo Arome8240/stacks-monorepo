@@ -55,7 +55,7 @@
     stake-info
       (let
         (
-          (blocks-staked (- block-height (get last-claim-height stake-info)))
+          (blocks-staked (- burn-block-height (get last-claim-height stake-info)))
           (stake-amount (get amount stake-info))
           (rewards (/ (* (* stake-amount (var-get reward-rate)) blocks-staked) u1000000))
         )
@@ -76,7 +76,7 @@
     (asserts! (>= (stx-get-balance tx-sender) amount) err-insufficient-balance)
 
     ;; Transfer STX to contract
-    (try! (stx-transfer? amount tx-sender (as-contract tx-sender)))
+    (unwrap! (stx-transfer? amount tx-sender (as-contract tx-sender)) err-insufficient-balance)
 
     (match existing-stake
       stake-info
@@ -86,7 +86,7 @@
           {
             amount: (+ (get amount stake-info) amount),
             start-height: (get start-height stake-info),
-            last-claim-height: block-height
+            last-claim-height: burn-block-height
           }
         )
       ;; Create new stake
@@ -95,8 +95,8 @@
           { staker: tx-sender }
           {
             amount: amount,
-            start-height: block-height,
-            last-claim-height: block-height
+            start-height: burn-block-height,
+            last-claim-height: burn-block-height
           }
         )
         (map-set staker-list { index: staker-idx } { staker: tx-sender })
@@ -118,10 +118,10 @@
     (asserts! (>= (get amount stake-info) amount) err-insufficient-balance)
 
     ;; Claim rewards first
-    (try! (claim-rewards))
+    (unwrap! (claim-rewards) err-insufficient-balance)
 
     ;; Transfer STX back to staker
-    (try! (as-contract (stx-transfer? amount tx-sender tx-sender)))
+    (unwrap! (as-contract (stx-transfer? amount tx-sender tx-sender)) err-insufficient-balance)
 
     (let
       (
@@ -150,12 +150,12 @@
     (asserts! (> rewards u0) err-invalid-amount)
 
     ;; Transfer rewards
-    (try! (as-contract (stx-transfer? rewards tx-sender tx-sender)))
+    (unwrap! (as-contract (stx-transfer? rewards tx-sender tx-sender)) err-insufficient-rewards)
 
     ;; Update last claim height
     (map-set stakes
       { staker: tx-sender }
-      (merge stake-info { last-claim-height: block-height })
+      (merge stake-info { last-claim-height: burn-block-height })
     )
 
     (var-set total-rewards-distributed (+ (var-get total-rewards-distributed) rewards))
@@ -186,7 +186,7 @@
       (balance (stx-get-balance (as-contract tx-sender)))
     )
     (asserts! (is-eq tx-sender contract-owner) err-owner-only)
-    (try! (as-contract (stx-transfer? balance tx-sender contract-owner)))
+    (unwrap! (as-contract (stx-transfer? balance tx-sender contract-owner)) err-owner-only)
     (ok balance)
   )
 )

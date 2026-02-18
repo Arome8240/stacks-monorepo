@@ -52,7 +52,7 @@
 
 (define-read-only (is-data-fresh (feed-id uint))
   (match (map-get? price-feeds { feed-id: feed-id })
-    feed (ok (<= (- block-height (get last-update feed)) (var-get staleness-threshold)))
+    feed (ok (<= (- burn-block-height (get last-update feed)) (var-get staleness-threshold)))
     (err err-feed-not-found)
   )
 )
@@ -62,7 +62,7 @@
     (
       (feed (unwrap! (map-get? price-feeds { feed-id: feed-id }) err-feed-not-found))
     )
-    (asserts! (<= (- block-height (get last-update feed)) (var-get staleness-threshold)) err-stale-data)
+    (asserts! (<= (- burn-block-height (get last-update feed)) (var-get staleness-threshold)) err-stale-data)
     (ok (get price feed))
   )
 )
@@ -97,7 +97,7 @@
       {
         name: name,
         price: initial-price,
-        last-update: block-height,
+        last-update: burn-block-height,
         oracle: tx-sender
       }
     )
@@ -120,7 +120,7 @@
       { feed-id: feed-id }
       (merge feed {
         price: new-price,
-        last-update: block-height,
+        last-update: burn-block-height,
         oracle: tx-sender
       })
     )

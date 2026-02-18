@@ -64,7 +64,7 @@
     (asserts! (>= (stx-get-balance tx-sender) amount) err-insufficient-balance)
 
     ;; Transfer STX to contract
-    (try! (stx-transfer? amount tx-sender (as-contract tx-sender)))
+    (unwrap! (stx-transfer? amount tx-sender (as-contract tx-sender)) err-insufficient-balance)
 
     ;; Create vault
     (map-set vaults
@@ -103,7 +103,7 @@
     (asserts! (>= block-height (get unlock-height vault)) err-vault-locked)
 
     ;; Transfer STX back to owner
-    (try! (as-contract (stx-transfer? (get amount vault) tx-sender (get owner vault))))
+    (unwrap! (as-contract (stx-transfer? (get amount vault) tx-sender (get owner vault))) err-insufficient-balance)
 
     ;; Mark as withdrawn
     (map-set vaults
@@ -144,7 +144,7 @@
     (asserts! (>= (stx-get-balance tx-sender) additional-amount) err-insufficient-balance)
 
     ;; Transfer additional STX to contract
-    (try! (stx-transfer? additional-amount tx-sender (as-contract tx-sender)))
+    (unwrap! (stx-transfer? additional-amount tx-sender (as-contract tx-sender)) err-insufficient-balance)
 
     ;; Update vault amount
     (map-set vaults

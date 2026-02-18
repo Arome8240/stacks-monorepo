@@ -112,7 +112,7 @@
     (asserts! (>= (stx-get-balance tx-sender) amount) err-invalid-amount)
 
     ;; Transfer STX to contract
-    (try! (stx-transfer? amount tx-sender (as-contract tx-sender)))
+    (unwrap! (stx-transfer? amount tx-sender (as-contract tx-sender)) err-invalid-amount)
 
     ;; Update contribution
     (map-set contributions
@@ -156,7 +156,7 @@
     (asserts! (not (get claimed campaign)) err-already-claimed)
 
     ;; Transfer funds to campaign owner
-    (try! (as-contract (stx-transfer? (get raised campaign) tx-sender (get owner campaign))))
+    (unwrap! (as-contract (stx-transfer? (get raised campaign) tx-sender (get owner campaign))) err-invalid-amount)
 
     (map-set campaigns
       { campaign-id: campaign-id }
@@ -178,7 +178,7 @@
     (asserts! (> contribution u0) err-invalid-amount)
 
     ;; Refund contributor
-    (try! (as-contract (stx-transfer? contribution tx-sender tx-sender)))
+    (unwrap! (as-contract (stx-transfer? contribution tx-sender tx-sender)) err-invalid-amount)
 
     ;; Clear contribution
     (map-delete contributions { campaign-id: campaign-id, contributor: tx-sender })

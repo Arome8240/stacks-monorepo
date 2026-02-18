@@ -104,7 +104,7 @@
     )
 
     ;; Transfer tokens to contract
-    (try! (ft-transfer? vault-token initial-deposit tx-sender (as-contract tx-sender)))
+    (unwrap! (ft-transfer? vault-token initial-deposit tx-sender (as-contract tx-sender)) err-insufficient-balance)
 
     ;; Create vault
     (map-set vaults
@@ -143,7 +143,7 @@
     (asserts! (>= (ft-get-balance vault-token tx-sender) amount) err-insufficient-balance)
 
     ;; Transfer tokens to contract
-    (try! (ft-transfer? vault-token amount tx-sender (as-contract tx-sender)))
+    (unwrap! (ft-transfer? vault-token amount tx-sender (as-contract tx-sender)) err-insufficient-balance)
 
     ;; Update vault balance
     (map-set vaults
@@ -171,7 +171,7 @@
     )
 
     ;; Transfer tokens back to owner
-    (try! (as-contract (ft-transfer? vault-token amount tx-sender (get owner vault))))
+    (unwrap! (as-contract (ft-transfer? vault-token amount tx-sender (get owner vault))) err-insufficient-balance)
 
     ;; Update vault balance
     (map-set vaults
