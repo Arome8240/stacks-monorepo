@@ -6,7 +6,7 @@ stacks-node: http://localhost:20443
 bitcoin-node: http://devnet:devnet@localhost:18443
 plan:
   batches:
-    - id: 15010
+    - id: 12472
       transactions:
         - contract-publish:
             contract-name: nft-marketplace
@@ -14,7 +14,7 @@ plan:
             cost: 100000
             path: contracts/nft-marketplace.clar
             clarity-version: 2
-    - id: 14990
+    - id: 9392
       transactions:
         - contract-publish:
             contract-name: oracle-feed
@@ -22,7 +22,7 @@ plan:
             cost: 100000
             path: contracts/oracle-feed.clar
             clarity-version: 2
-    - id: 28134
+    - id: 7008
       transactions:
         - contract-publish:
             contract-name: lottery-system
@@ -30,7 +30,7 @@ plan:
             cost: 100000
             path: contracts/lottery-system.clar
             clarity-version: 2
-    - id: 27042
+    - id: 16421
       transactions:
         - contract-publish:
             contract-name: time-locked-vault
@@ -38,7 +38,7 @@ plan:
             cost: 100000
             path: contracts/time-locked-vault.clar
             clarity-version: 2
-    - id: 29638
+    - id: 8329
       transactions:
         - contract-publish:
             contract-name: multi-sig-wallet
@@ -46,7 +46,7 @@ plan:
             cost: 100000
             path: contracts/multi-sig-wallet.clar
             clarity-version: 2
-    - id: 25032
+    - id: 13600
       transactions:
         - contract-publish:
             contract-name: crowdfunding
@@ -54,7 +54,7 @@ plan:
             cost: 100000
             path: contracts/crowdfunding.clar
             clarity-version: 2
-    - id: 1576
+    - id: 32451
       transactions:
         - contract-publish:
             contract-name: dao-governance
@@ -62,7 +62,7 @@ plan:
             cost: 100000
             path: contracts/dao-governance.clar
             clarity-version: 2
-    - id: 11328
+    - id: 11962
       transactions:
         - contract-publish:
             contract-name: escrow-service
@@ -70,7 +70,7 @@ plan:
             cost: 100000
             path: contracts/escrow-service.clar
             clarity-version: 2
-    - id: 14392
+    - id: 29073
       transactions:
         - contract-publish:
             contract-name: staking-pool
@@ -78,7 +78,7 @@ plan:
             cost: 100000
             path: contracts/staking-pool.clar
             clarity-version: 2
-    - id: 28713
+    - id: 17099
       transactions:
         - contract-publish:
             contract-name: token-vault
