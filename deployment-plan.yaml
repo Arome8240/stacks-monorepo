@@ -1,0 +1,88 @@
+---
+id: 0
+name: Stacks Contracts Deployment
+network: devnet
+stacks-node: http://localhost:20443
+bitcoin-node: http://devnet:devnet@localhost:18443
+plan:
+  batches:
+    - id: 15010
+      transactions:
+        - contract-publish:
+            contract-name: nft-marketplace
+            expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 100000
+            path: contracts/nft-marketplace.clar
+            clarity-version: 2
+    - id: 14990
+      transactions:
+        - contract-publish:
+            contract-name: oracle-feed
+            expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 100000
+            path: contracts/oracle-feed.clar
+            clarity-version: 2
+    - id: 28134
+      transactions:
+        - contract-publish:
+            contract-name: lottery-system
+            expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 100000
+            path: contracts/lottery-system.clar
+            clarity-version: 2
+    - id: 27042
+      transactions:
+        - contract-publish:
+            contract-name: time-locked-vault
+            expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 100000
+            path: contracts/time-locked-vault.clar
+            clarity-version: 2
+    - id: 29638
+      transactions:
+        - contract-publish:
+            contract-name: multi-sig-wallet
+            expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 100000
+            path: contracts/multi-sig-wallet.clar
+            clarity-version: 2
+    - id: 25032
+      transactions:
+        - contract-publish:
+            contract-name: crowdfunding
+            expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 100000
+            path: contracts/crowdfunding.clar
+            clarity-version: 2
+    - id: 1576
+      transactions:
+        - contract-publish:
+            contract-name: dao-governance
+            expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 100000
+            path: contracts/dao-governance.clar
+            clarity-version: 2
+    - id: 11328
+      transactions:
+        - contract-publish:
+            contract-name: escrow-service
+            expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 100000
+            path: contracts/escrow-service.clar
+            clarity-version: 2
+    - id: 14392
+      transactions:
+        - contract-publish:
+            contract-name: staking-pool
+            expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 100000
+            path: contracts/staking-pool.clar
+            clarity-version: 2
+    - id: 28713
+      transactions:
+        - contract-publish:
+            contract-name: token-vault
+            expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 100000
+            path: contracts/token-vault.clar
+            clarity-version: 2
